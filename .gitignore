@@ -1,0 +1,23 @@
+# Compiled output
+target/
+
+# IDE-specific
+.idea/
+.classpath
+.project
+.settings/
+
+# Operating System-specific
+*.iml
+*.DS_Store
+
+# Log files and temporary files
+*.log
+*.tmp
+
+# Dependency caches
+.m2/
+
+# Maven wrapper scripts
+mvnw
+mvnw.cmd
