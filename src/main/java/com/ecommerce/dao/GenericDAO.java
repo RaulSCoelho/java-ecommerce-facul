@@ -9,6 +9,12 @@ import java.util.List;
 public class GenericDAO<T> {
   private static final String PERSISTENCE_UNIT_NAME = "my-persistence-unit";
   private static EntityManagerFactory emf;
+  private final Class<T> entityClass;
+
+  public GenericDAO(Class<T> entityClass) {
+    this.entityClass = entityClass;
+    emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+  }
 
   static {
     emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
@@ -18,7 +24,7 @@ public class GenericDAO<T> {
     return emf.createEntityManager();
   }
 
-  public List<T> findAll(Class<T> entityClass) {
+  public List<T> findAll() {
     EntityManager em = getEntityManager();
     CriteriaQuery<T> criteriaQuery = em.getCriteriaBuilder().createQuery(entityClass);
     criteriaQuery.from(entityClass);
@@ -27,7 +33,7 @@ public class GenericDAO<T> {
     return entities;
   }
 
-  public T findById(Class<T> entityClass, Long id) {
+  public T findById(Long id) {
     EntityManager em = getEntityManager();
     T entity = em.find(entityClass, id);
     em.close();
