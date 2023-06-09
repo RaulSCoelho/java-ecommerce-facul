@@ -13,7 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Order {
+public class PurchaseOrder {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -29,7 +29,7 @@ public class Order {
   private LocalDateTime orderDate;
   private double totalAmount;
 
-  public Order(double totalAmount, Client client) {
+  public PurchaseOrder(double totalAmount, Client client) {
     this.totalAmount = totalAmount;
     this.client = client;
     this.orderDate = LocalDateTime.now();
