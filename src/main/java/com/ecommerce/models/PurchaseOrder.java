@@ -29,14 +29,23 @@ public class PurchaseOrder {
   private LocalDateTime orderDate;
   private double totalAmount;
 
-  public PurchaseOrder(double totalAmount, Client client) {
-    this.totalAmount = totalAmount;
+  public PurchaseOrder(Client client, List<Product> products, double totalAmount) {
     this.client = client;
+    this.products = products;
+    this.totalAmount = totalAmount;
     this.orderDate = LocalDateTime.now();
   }
 
   public Long getId() {
     return id;
+  }
+
+  public Client getClient() {
+    return client;
+  }
+
+  public List<Product> getProducts() {
+    return products;
   }
 
   public LocalDateTime getOrderDate() {

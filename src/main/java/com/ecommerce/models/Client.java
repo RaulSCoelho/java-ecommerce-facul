@@ -19,4 +19,8 @@ public class Client extends User {
   public List<PurchaseOrder> getOrders() {
     return orders;
   }
+
+  public void addOrder(PurchaseOrder order) {
+    orders.add(order);
+  }
 }
