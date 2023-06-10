@@ -1,15 +1,14 @@
 package com.ecommerce;
 
-import com.ecommerce.dao.UserDAO;
+import com.ecommerce.controller.UserController;
 import com.ecommerce.models.User;
 
 public class App {
-    private static UserDAO userDAO = new UserDAO();
+    private static UserController userController = new UserController();
 
     public static void main(String[] args) {
-        User user = userDAO.findByUsername("RaulSCoelho");
-
+        User user = userController.login("RaulSCoelho", "teste123");
         if (user != null)
-            System.out.println(user.getUsername());
+            System.out.println(user.toString());
     }
 }

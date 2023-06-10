@@ -5,7 +5,7 @@ import com.ecommerce.models.User;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
-public class AuthController {
+public class UserController {
   private static UserDAO userDAO = new UserDAO();
 
   public User login(String username, String password) {
