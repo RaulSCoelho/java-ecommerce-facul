@@ -29,6 +29,7 @@ public class User {
   private String password;
   private String email;
   private String address;
+  private Double balance = 0.0;
 
   public User() {
   }
@@ -104,5 +105,21 @@ public class User {
 
   public void setAddress(String address) {
     this.address = address;
+  }
+
+  public Double getBalance() {
+    return balance;
+  }
+
+  public void depositMoney(Double amount) {
+    balance += amount;
+  }
+
+  public void withdrawMoney(Double amount) {
+    if (balance >= amount) {
+      balance -= amount;
+    } else {
+      throw new Error("Saldo insuficiente.");
+    }
   }
 }
