@@ -2,6 +2,7 @@ package com.ecommerce.models;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +21,7 @@ public class User {
   @Column(name = "user_type")
   private String userType;
 
-  @OneToMany(mappedBy = "client")
+  @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<PurchaseOrder> orders;
 
   private String name;

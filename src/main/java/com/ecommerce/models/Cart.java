@@ -3,6 +3,7 @@ package com.ecommerce.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,11 +20,11 @@ public class Cart {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @OneToOne
+  @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "client_id")
   private User client;
 
-  @ManyToMany(fetch = FetchType.EAGER)
+  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinTable(name = "cart_product", joinColumns = @JoinColumn(name = "cart_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
   private List<Product> products = new ArrayList<>();
 
@@ -38,5 +39,17 @@ public class Cart {
   public Cart(User client, List<Product> products) {
     this.client = client;
     products.addAll(products);
+  }
+
+  public User getClient() {
+    return client;
+  }
+
+  public List<Product> getProducts() {
+    return products;
+  }
+
+  public void addProduct(Product product) {
+    products.add(product);
   }
 }

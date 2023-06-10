@@ -13,25 +13,17 @@ public class App {
     }
 
     public static void startProgram() {
-        if (user == null) {
-            System.out.println("Escolha uma ação: ");
-            System.out.println("1 - Login");
-            System.out.println("0 - Finalizar o programa");
-        } else {
-            System.out.println("Escolha uma ação: ");
-            System.out.println("1 - Logout");
-            System.out.println("0 - Finalizar programa");
-        }
+        boolean isLogged = user != null;
+        boolean isAdmin = isLogged && user.isAdmin();
 
-        int action = ScannerUtils.nextInt();
-
+        int action = chooseAction(isLogged, isAdmin);
         if (action == 0)
             return;
 
         System.out.println();
 
         try {
-            chooseAction(action);
+            doAction(action, isLogged, isAdmin);
         } catch (Throwable ex) {
             System.out.println(ex.getMessage());
         }
@@ -40,9 +32,7 @@ public class App {
         startProgram();
     }
 
-    public static void chooseAction(int action) {
-        boolean isLogged = user != null;
-
+    public static void doAction(int action, boolean isLogged, boolean isAdmin) {
         switch (action) {
             case 1:
                 if (isLogged)
@@ -51,5 +41,26 @@ public class App {
                     user = userController.login();
                 break;
         }
+    }
+
+    public static int chooseAction(boolean isLogged, boolean isAdmin) {
+        if (!isLogged) {
+            System.out.println("Escolha uma ação: ");
+            System.out.println("1 - Login");
+            System.out.println("0 - Finalizar o programa");
+        } else if (isAdmin) {
+            System.out.println("Escolha uma ação: ");
+            System.out.println("1 - Criar um usuário");
+            System.out.println("2 - Remover um usuário");
+            System.out.println("3 - Adicionar um produto");
+            System.out.println("1 - Logout");
+            System.out.println("0 - Finalizar programa");
+        } else {
+            System.out.println("Escolha uma ação: ");
+            System.out.println("1 - Logout");
+            System.out.println("0 - Finalizar programa");
+        }
+
+        return ScannerUtils.nextInt();
     }
 }

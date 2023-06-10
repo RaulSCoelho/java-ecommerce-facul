@@ -1,8 +1,10 @@
 package com.ecommerce.models;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,19 +21,22 @@ public class PurchaseOrder {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "client_id")
   private User client;
 
-  @ManyToMany
+  @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "order_product", joinColumns = @JoinColumn(name = "order_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
-  private List<Product> products;
+  private List<Product> products = new ArrayList<>();
 
   @Column(name = "order_date")
   private LocalDateTime orderDate;
 
   @Column(name = "total_amount")
   private double totalAmount;
+
+  public PurchaseOrder() {
+  }
 
   public PurchaseOrder(User client, List<Product> products, double totalAmount) {
     this.client = client;
