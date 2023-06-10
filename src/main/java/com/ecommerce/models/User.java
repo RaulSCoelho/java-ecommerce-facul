@@ -47,6 +47,10 @@ public class User {
     return userType;
   }
 
+  public boolean isAdmin() {
+    return userType == UserType.ADMIN.toString();
+  }
+
   public List<PurchaseOrder> getOrders() {
     return orders;
   }
