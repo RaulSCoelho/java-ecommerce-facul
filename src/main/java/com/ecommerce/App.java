@@ -33,17 +33,24 @@ public class App {
   }
 
   public static void doAction(int action, boolean isLogged, boolean isAdmin) {
-    if (!isLogged && action == 1) {
-      user = userController.login();
-    } else if (isLogged && isAdmin) {
+    if (!isLogged) {
       switch (action) {
-        case 3:
+        case 1:
+          user = userController.login();
+          break;
+        case 2:
+          user = userController.login();
+          break;
+      }
+    } else if (isAdmin) {
+      switch (action) {
+        case 4:
           user = null;
           break;
       }
-    } else if (isLogged) {
+    } else {
       switch (action) {
-        case 3:
+        case 4:
           user = null;
           break;
       }
@@ -54,14 +61,17 @@ public class App {
     System.out.println("Escolha uma ação: ");
     if (!isLogged) {
       System.out.println("1 - Login");
+      System.out.println("2 - Criar uma conta");
     } else if (isAdmin) {
-      System.out.println("1 - Criar um usuário");
-      System.out.println("2 - Remover um usuário");
-      System.out.println("3 - Logout");
+      System.out.println("1 - Listar usuários");
+      System.out.println("2 - Criar um usuário");
+      System.out.println("3 - Remover um usuário");
+      System.out.println("4 - Logout");
     } else {
-      System.out.println("1 - Cadastrar um produto");
-      System.out.println("2 - Comprar um produto");
-      System.out.println("3 - Logout");
+      System.out.println("1 - Ir para a loja");
+      System.out.println("2 - Ir para meus produtos");
+      System.out.println("3 - Ir para meu perfil");
+      System.out.println("4 - Logout");
     }
     System.out.println("0 - Finalizar programa");
 
