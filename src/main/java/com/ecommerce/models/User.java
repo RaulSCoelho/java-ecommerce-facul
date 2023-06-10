@@ -1,21 +1,25 @@
 package com.ecommerce.models;
 
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
+import java.util.List;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
-public abstract class User {
+public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
+  @Column(name = "user_type")
+  private String userType;
+
+  @OneToMany(mappedBy = "client")
+  private List<PurchaseOrder> orders;
 
   private String name;
   private String username;
@@ -23,7 +27,11 @@ public abstract class User {
   private String email;
   private String address;
 
-  public User(String name, String username, String password, String email, String address) {
+  public User() {
+  }
+
+  public User(UserType userType, String name, String username, String password, String email, String address) {
+    this.userType = userType.toString();
     this.name = name;
     this.username = username;
     this.password = password;
@@ -33,6 +41,22 @@ public abstract class User {
 
   public Long getId() {
     return id;
+  }
+
+  public String getUserType() {
+    return userType;
+  }
+
+  public List<PurchaseOrder> getOrders() {
+    return orders;
+  }
+
+  public void addOrder(PurchaseOrder order) {
+    orders.add(order);
+  }
+
+  public void setUserType(UserType userType) {
+    this.userType = userType.toString();
   }
 
   public String getName() {

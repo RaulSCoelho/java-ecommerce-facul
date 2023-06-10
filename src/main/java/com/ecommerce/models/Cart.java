@@ -1,5 +1,6 @@
 package com.ecommerce.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -20,9 +21,22 @@ public class Cart {
 
   @OneToOne
   @JoinColumn(name = "client_id")
-  private Client client;
+  private User client;
 
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "cart_product", joinColumns = @JoinColumn(name = "cart_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
-  private List<Product> products;
+  private List<Product> products = new ArrayList<>();
+
+  public Cart() {
+  }
+
+  public Cart(User client, Product product) {
+    this.client = client;
+    products.add(product);
+  }
+
+  public Cart(User client, List<Product> products) {
+    this.client = client;
+    products.addAll(products);
+  }
 }

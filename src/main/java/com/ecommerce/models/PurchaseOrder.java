@@ -3,6 +3,7 @@ package com.ecommerce.models;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,16 +21,19 @@ public class PurchaseOrder {
 
   @ManyToOne
   @JoinColumn(name = "client_id")
-  private Client client;
+  private User client;
 
   @ManyToMany
   @JoinTable(name = "order_product", joinColumns = @JoinColumn(name = "order_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
   private List<Product> products;
 
+  @Column(name = "order_date")
   private LocalDateTime orderDate;
+
+  @Column(name = "total_amount")
   private double totalAmount;
 
-  public PurchaseOrder(Client client, List<Product> products, double totalAmount) {
+  public PurchaseOrder(User client, List<Product> products, double totalAmount) {
     this.client = client;
     this.products = products;
     this.totalAmount = totalAmount;
@@ -40,7 +44,7 @@ public class PurchaseOrder {
     return id;
   }
 
-  public Client getClient() {
+  public User getClient() {
     return client;
   }
 

@@ -14,4 +14,8 @@ public class AuthController {
 
     return user;
   }
+
+  public void createUser(User user) {
+    userDAO.create(user);
+  }
 }
