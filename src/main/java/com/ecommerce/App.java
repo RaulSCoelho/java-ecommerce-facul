@@ -31,16 +31,25 @@ public class App {
         System.out.println();
 
         try {
-            switch (action) {
-                case 1:
-                    userController.login(ScannerUtils.nextLine("Username: "), ScannerUtils.nextLine("Password: "));
-                    break;
-            }
+            chooseAction(action);
         } catch (Throwable ex) {
             System.out.println(ex.getMessage());
         }
 
         System.out.println();
         startProgram();
+    }
+
+    public static void chooseAction(int action) {
+        boolean isLogged = user != null;
+
+        switch (action) {
+            case 1:
+                if (isLogged)
+                    user = null;
+                else
+                    user = userController.login();
+                break;
+        }
     }
 }

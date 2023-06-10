@@ -2,13 +2,17 @@ package com.ecommerce.controller;
 
 import com.ecommerce.dao.UserDAO;
 import com.ecommerce.models.User;
+import com.ecommerce.utils.ScannerUtils;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
 public class UserController {
   private static UserDAO userDAO = new UserDAO();
 
-  public User login(String username, String password) {
+  public User login() {
+    String username = ScannerUtils.nextLine("Username: ");
+    String password = ScannerUtils.nextLine("Password: ");
+
     User user = userDAO.findByUsername(username);
 
     if (user == null)
