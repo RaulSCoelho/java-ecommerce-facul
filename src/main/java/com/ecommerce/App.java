@@ -39,17 +39,23 @@ public class App {
           user = userController.login();
           break;
         case 2:
-          user = userController.login();
+          user = userController.createUser(false);
           break;
       }
     } else if (isAdmin) {
       switch (action) {
+        case 2:
+          userController.createUser(true);
+          break;
         case 4:
           user = null;
           break;
       }
     } else {
       switch (action) {
+        case 2:
+          userController.createUser(false);
+          break;
         case 4:
           user = null;
           break;

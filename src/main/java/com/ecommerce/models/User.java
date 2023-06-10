@@ -26,21 +26,21 @@ public class User {
 
   private String name;
   private String username;
-  private String password;
   private String email;
   private String address;
+  private String password;
   private Double balance = 0.0;
 
   public User() {
   }
 
-  public User(UserType userType, String name, String username, String password, String email, String address) {
+  public User(UserType userType, String name, String username, String email, String address, String password) {
     this.userType = userType.toString();
     this.name = name;
     this.username = username;
-    this.password = BCrypt.withDefaults().hashToString(12, password.toCharArray());
     this.email = email;
     this.address = address;
+    this.password = BCrypt.withDefaults().hashToString(12, password.toCharArray());
   }
 
   public Long getId() {
@@ -83,14 +83,6 @@ public class User {
     this.username = username;
   }
 
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = BCrypt.withDefaults().hashToString(12, password.toCharArray());
-  }
-
   public String getEmail() {
     return email;
   }
@@ -105,6 +97,14 @@ public class User {
 
   public void setAddress(String address) {
     this.address = address;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = BCrypt.withDefaults().hashToString(12, password.toCharArray());
   }
 
   public Double getBalance() {
