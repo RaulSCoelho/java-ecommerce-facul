@@ -37,7 +37,7 @@ public class App {
     if (!isLogged) {
       switch (action) {
         case 1:
-          userController.login();
+          UserController.login();
           break;
         case 2:
           userController.createUser(false);
@@ -55,13 +55,13 @@ public class App {
           userController.deleteUser();
           break;
         case 4:
-          userController.logout();
+          UserController.logout();
           break;
       }
     } else {
       switch (action) {
         case 4:
-          userController.logout();
+          UserController.logout();
           break;
       }
     }

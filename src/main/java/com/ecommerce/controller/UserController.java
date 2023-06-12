@@ -17,28 +17,7 @@ public class UserController {
   private static UserDAO userDAO = new UserDAO();
   public static User loggedUser;
 
-  public void listUsers() {
-    List<User> users = userDAO.findAll();
-    for (int i = 0; i < users.size(); i++) {
-      User user = users.get(i);
-
-      TerminalUtils.alertln(String.format("%s - %s", user.getName(), user.getUserType()));
-      TerminalUtils.alert("username: ");
-      System.out.println(user.getUsername());
-      TerminalUtils.alert("email: ");
-      System.out.println(user.getEmail());
-      TerminalUtils.alert("endereço: ");
-      System.out.println(user.getAddress());
-      TerminalUtils.alert("saldo: ");
-      System.out.println(String.format("R$ %.2f", user.getBalance()));
-
-      if (i < users.size() - 1) {
-        System.out.println();
-      }
-    }
-  }
-
-  public void login() {
+  public static void login() {
     String username = ScannerUtils.nextLine("Username: ");
     String password = ScannerUtils.nextLine("Password: ");
 
@@ -58,8 +37,29 @@ public class UserController {
     TerminalUtils.successln("Logado com sucesso!");
   }
 
-  public void logout() {
+  public static void logout() {
     loggedUser = null;
+  }
+
+  public void listUsers() {
+    List<User> users = userDAO.findAll();
+    for (int i = 0; i < users.size(); i++) {
+      User user = users.get(i);
+
+      TerminalUtils.alertln(String.format("%s - %s", user.getName(), user.getUserType()));
+      TerminalUtils.alert("username: ");
+      System.out.println(user.getUsername());
+      TerminalUtils.alert("email: ");
+      System.out.println(user.getEmail());
+      TerminalUtils.alert("endereço: ");
+      System.out.println(user.getAddress());
+      TerminalUtils.alert("saldo: ");
+      System.out.println(String.format("R$ %.2f", user.getBalance()));
+
+      if (i < users.size() - 1) {
+        System.out.println();
+      }
+    }
   }
 
   public void createUser(boolean askUserType) {
