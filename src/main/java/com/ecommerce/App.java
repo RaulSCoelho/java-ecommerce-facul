@@ -50,6 +50,9 @@ public class App {
         case 2:
           userController.createUser(true);
           break;
+        case 3:
+          userController.deleteUser();
+          break;
         case 4:
           user = null;
           break;

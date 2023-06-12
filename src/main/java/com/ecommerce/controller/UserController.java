@@ -1,6 +1,9 @@
 package com.ecommerce.controller;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.ecommerce.dao.UserDAO;
 import com.ecommerce.models.User;
@@ -70,5 +73,30 @@ public class UserController {
     User user = new User(userType, name, username, email, address, password);
     userDAO.create(user);
     return user;
+  }
+
+  public void deleteUser() {
+    List<User> users = userDAO.findAll();
+
+    System.out.println("Qual usuário deseja remover?");
+    for (User user : users) {
+      int index = users.indexOf(user);
+      System.out.println(String.format("%d - %s", index + 1, user.getUsername()));
+    }
+
+    int indexToRemove = ScannerUtils.nextInt() - 1;
+
+    if (indexToRemove < 0 || indexToRemove > users.size() - 1) {
+      throw new Error("Usuário inválido!");
+    }
+
+    User userToRemove = users.get(indexToRemove);
+    String response = ScannerUtils
+        .nextLine(String.format("Tem certeza que deseja remover %s? (S/N) ", userToRemove.getUsername()));
+    Set<String> acceptedResponses = new HashSet<>(Arrays.asList("s", "sim", "y", "yes"));
+
+    if (acceptedResponses.contains(response.toLowerCase())) {
+      userDAO.delete(userToRemove);
+    }
   }
 }
