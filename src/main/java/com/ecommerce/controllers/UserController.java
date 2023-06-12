@@ -48,6 +48,7 @@ public class UserController {
 
   public static void logout() {
     loggedUser = null;
+    FileUtils.removeFile("user.obj");
   }
 
   public void listUsers() {

@@ -53,4 +53,12 @@ public class FileUtils {
 
     return object;
   }
+
+  public static void removeFile(String fileName) {
+    File file = Paths.get(ROOT_PATH, fileName).toFile();
+
+    if (file.exists()) {
+      file.delete();
+    }
+  }
 }
