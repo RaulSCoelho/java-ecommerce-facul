@@ -7,13 +7,13 @@ import com.ecommerce.utils.TerminalUtils;
 
 public class App {
   private static UserController userController = new UserController();
-  private static User user;
 
   public static void main(String[] args) {
     startProgram();
   }
 
   public static void startProgram() {
+    User user = UserController.loggedUser;
     boolean isLogged = user != null;
     boolean isAdmin = isLogged && user.isAdmin();
 
@@ -37,10 +37,10 @@ public class App {
     if (!isLogged) {
       switch (action) {
         case 1:
-          user = userController.login();
+          userController.login();
           break;
         case 2:
-          user = userController.createUser(false);
+          userController.createUser(false);
           break;
       }
     } else if (isAdmin) {
@@ -55,13 +55,13 @@ public class App {
           userController.deleteUser();
           break;
         case 4:
-          user = null;
+          userController.logout();
           break;
       }
     } else {
       switch (action) {
         case 4:
-          user = null;
+          userController.logout();
           break;
       }
     }

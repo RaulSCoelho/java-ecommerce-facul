@@ -15,6 +15,7 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 
 public class UserController {
   private static UserDAO userDAO = new UserDAO();
+  public static User loggedUser;
 
   public void listUsers() {
     List<User> users = userDAO.findAll();
@@ -37,7 +38,7 @@ public class UserController {
     }
   }
 
-  public User login() {
+  public void login() {
     String username = ScannerUtils.nextLine("Username: ");
     String password = ScannerUtils.nextLine("Password: ");
 
@@ -53,12 +54,15 @@ public class UserController {
       throw new Error("Nome de usuário ou senha inválidos!");
     }
 
+    loggedUser = user;
     TerminalUtils.successln("Logado com sucesso!");
-
-    return user;
   }
 
-  public User createUser(boolean askUserType) {
+  public void logout() {
+    loggedUser = null;
+  }
+
+  public void createUser(boolean askUserType) {
     UserType userType = UserType.CLIENT;
 
     if (askUserType) {
@@ -89,9 +93,8 @@ public class UserController {
     User user = new User(userType, name, username, email, address, password);
     userDAO.create(user);
 
+    loggedUser = user;
     TerminalUtils.successln("Usuário criado com sucesso!");
-
-    return user;
   }
 
   public void deleteUser() {
@@ -117,5 +120,7 @@ public class UserController {
     if (acceptedResponses.contains(response.toLowerCase())) {
       userDAO.delete(userToRemove);
     }
+
+    TerminalUtils.successln("Usuário removido com sucesso!");
   }
 }
