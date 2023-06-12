@@ -1,5 +1,6 @@
 package com.ecommerce.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import javax.persistence.OneToMany;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
 @Entity
-public class User {
+public class User implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

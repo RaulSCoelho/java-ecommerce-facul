@@ -1,4 +1,4 @@
-package com.ecommerce.controller;
+package com.ecommerce.controllers;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -8,6 +8,7 @@ import java.util.Set;
 import com.ecommerce.dao.UserDAO;
 import com.ecommerce.models.User;
 import com.ecommerce.models.UserType;
+import com.ecommerce.utils.FileUtils;
 import com.ecommerce.utils.ScannerUtils;
 import com.ecommerce.utils.TerminalUtils;
 
@@ -16,6 +17,13 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 public class UserController {
   private static UserDAO userDAO = new UserDAO();
   public static User loggedUser;
+
+  public UserController() {
+    User user = (User) FileUtils.readObject("user.obj");
+    if (user != null) {
+      loggedUser = user;
+    }
+  }
 
   public static void login() {
     String username = ScannerUtils.nextLine("Username: ");
@@ -34,6 +42,7 @@ public class UserController {
     }
 
     loggedUser = user;
+    FileUtils.storeObject(user, "user.obj");
     TerminalUtils.successln("Logado com sucesso!");
   }
 

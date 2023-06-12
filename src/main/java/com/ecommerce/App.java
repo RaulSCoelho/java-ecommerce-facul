@@ -1,12 +1,16 @@
 package com.ecommerce;
 
-import com.ecommerce.controller.UserController;
+import com.ecommerce.controllers.ProductController;
+import com.ecommerce.controllers.ShopController;
+import com.ecommerce.controllers.UserController;
 import com.ecommerce.models.User;
 import com.ecommerce.utils.ScannerUtils;
 import com.ecommerce.utils.TerminalUtils;
 
 public class App {
   private static UserController userController = new UserController();
+  private static ShopController shopController = new ShopController();
+  private static ProductController productController = new ProductController();
 
   public static void main(String[] args) {
     startProgram();
@@ -60,6 +64,12 @@ public class App {
       }
     } else {
       switch (action) {
+        case 1:
+          shopController.listProducts();
+          break;
+        case 2:
+          productController.menu();
+          break;
         case 4:
           UserController.logout();
           break;
