@@ -1,18 +1,18 @@
 package com.ecommerce.utils;
 
 public class TerminalUtils {
-  private static final String WHITE = "\u001B[0m";
+  private static final String RESET = "\u001B[0m";
   private static final String RED = "\u001B[31m";
   private static final String GREEN = "\u001B[32m";
   private static final String BLUE = "\u001B[34m";
   private static final String YELLOW = "\u001B[33m";
 
   private static void print(String message, String color) {
-    System.out.print(color + message + WHITE);
+    System.out.print(color + message + RESET);
   }
 
   private static void println(String message, String color) {
-    System.out.println(color + message + WHITE);
+    System.out.println(color + message + RESET);
   }
 
   public static void success(String message) {
