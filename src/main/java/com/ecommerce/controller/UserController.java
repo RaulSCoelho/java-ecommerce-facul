@@ -1,5 +1,7 @@
 package com.ecommerce.controller;
 
+import java.util.List;
+
 import com.ecommerce.dao.UserDAO;
 import com.ecommerce.models.User;
 import com.ecommerce.models.UserType;
@@ -9,6 +11,16 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 
 public class UserController {
   private static UserDAO userDAO = new UserDAO();
+
+  public void listUsers() {
+    List<User> users = userDAO.findAll();
+    for (int i = 0; i < users.size(); i++) {
+      System.out.println(users.get(i).toString());
+
+      if (i < users.size() - 1)
+        System.out.println();
+    }
+  }
 
   public User login() {
     String username = ScannerUtils.nextLine("Username: ");

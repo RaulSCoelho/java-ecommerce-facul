@@ -44,6 +44,9 @@ public class App {
       }
     } else if (isAdmin) {
       switch (action) {
+        case 1:
+          userController.listUsers();
+          break;
         case 2:
           userController.createUser(true);
           break;
@@ -53,9 +56,6 @@ public class App {
       }
     } else {
       switch (action) {
-        case 2:
-          userController.createUser(false);
-          break;
         case 4:
           user = null;
           break;

@@ -43,6 +43,13 @@ public class User {
     this.password = BCrypt.withDefaults().hashToString(12, password.toCharArray());
   }
 
+  @Override
+  public String toString() {
+    return String.format("%s - %s\nusername: %s\nemail: %s\nendereço: %s\nsaldo: R$ %.2f", name, userType, username,
+        email,
+        address, balance);
+  }
+
   public Long getId() {
     return id;
   }
@@ -64,7 +71,7 @@ public class User {
   }
 
   public boolean isAdmin() {
-    return userType == UserType.ADMIN.toString();
+    return userType.equals(UserType.ADMIN.toString());
   }
 
   public String getName() {
