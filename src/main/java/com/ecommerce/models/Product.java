@@ -1,6 +1,5 @@
 package com.ecommerce.models;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +13,7 @@ public class Product {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne()
   @JoinColumn(name = "user_id")
   private User owner;
 
@@ -26,7 +25,8 @@ public class Product {
   public Product() {
   }
 
-  public Product(String name, String description, double price, int quantity) {
+  public Product(User owner, String name, String description, double price, int quantity) {
+    this.owner = owner;
     this.name = name;
     this.description = description;
     this.price = price;

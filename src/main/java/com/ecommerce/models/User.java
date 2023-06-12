@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,10 +22,10 @@ public class User implements Serializable {
   @Column(name = "user_type")
   private String userType;
 
-  @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "owner")
   private List<Product> products = new ArrayList<>();
 
-  @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "owner")
   private List<PurchaseOrder> orders = new ArrayList<>();
 
   private String name;
@@ -71,16 +70,8 @@ public class User implements Serializable {
     return orders;
   }
 
-  public void addOrder(PurchaseOrder order) {
-    orders.add(order);
-  }
-
   public List<Product> getProducts() {
     return products;
-  }
-
-  public void addProduct(Product product) {
-    products.add(product);
   }
 
   public boolean isAdmin() {

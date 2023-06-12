@@ -1,13 +1,13 @@
 package com.ecommerce.controllers;
 
-import com.ecommerce.dao.UserDAO;
+import com.ecommerce.dao.ProductDAO;
 import com.ecommerce.models.Product;
 import com.ecommerce.models.User;
 import com.ecommerce.utils.ScannerUtils;
 import com.ecommerce.utils.TerminalUtils;
 
 public class ProductController {
-  private static UserDAO userDAO = new UserDAO();
+  private static ProductDAO productDAO = new ProductDAO();
 
   public void menu() {
     TerminalUtils.infoln("Escolha uma ação: ");
@@ -47,8 +47,7 @@ public class ProductController {
       String description = ScannerUtils.nextLineln("Descrição do produto: ");
       double price = ScannerUtils.nextDouble("Preço do produto: (Ex.: 0,00) ");
       int quantity = ScannerUtils.nextInt("Unidades: ");
-      user.addProduct(new Product(name, description, price, quantity));
-      userDAO.update(user);
+      productDAO.create(new Product(user, name, description, price, quantity));
     }
   }
 
