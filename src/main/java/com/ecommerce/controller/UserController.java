@@ -92,7 +92,7 @@ public class UserController {
 
     User userToRemove = users.get(indexToRemove);
     String response = ScannerUtils
-        .nextLine(String.format("Tem certeza que deseja remover %s? (S/N) ", userToRemove.getUsername()));
+        .nextLine(String.format("Tem certeza que deseja remover %s? (s/n) ", userToRemove.getUsername()));
     Set<String> acceptedResponses = new HashSet<>(Arrays.asList("s", "sim", "y", "yes"));
 
     if (acceptedResponses.contains(response.toLowerCase())) {
