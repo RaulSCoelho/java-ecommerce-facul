@@ -3,6 +3,7 @@ package com.ecommerce;
 import com.ecommerce.controller.UserController;
 import com.ecommerce.models.User;
 import com.ecommerce.utils.ScannerUtils;
+import com.ecommerce.utils.TerminalUtils;
 
 public class App {
   private static UserController userController = new UserController();
@@ -25,7 +26,7 @@ public class App {
     try {
       doAction(action, isLogged, isAdmin);
     } catch (Throwable ex) {
-      System.out.println(ex.getMessage());
+      TerminalUtils.warningln(ex.getMessage());
     }
 
     System.out.println();
@@ -67,7 +68,7 @@ public class App {
   }
 
   public static int chooseAction(boolean isLogged, boolean isAdmin) {
-    System.out.println("Escolha uma ação: ");
+    TerminalUtils.infoln("Escolha uma ação: ");
     if (!isLogged) {
       System.out.println("1 - Login");
       System.out.println("2 - Criar uma conta");

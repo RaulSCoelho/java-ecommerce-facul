@@ -9,6 +9,7 @@ import com.ecommerce.dao.UserDAO;
 import com.ecommerce.models.User;
 import com.ecommerce.models.UserType;
 import com.ecommerce.utils.ScannerUtils;
+import com.ecommerce.utils.TerminalUtils;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
@@ -18,10 +19,21 @@ public class UserController {
   public void listUsers() {
     List<User> users = userDAO.findAll();
     for (int i = 0; i < users.size(); i++) {
-      System.out.println(users.get(i).toString());
+      User user = users.get(i);
 
-      if (i < users.size() - 1)
+      TerminalUtils.alertln(String.format("%s - %s", user.getName(), user.getUserType()));
+      TerminalUtils.alert("username: ");
+      System.out.println(user.getUsername());
+      TerminalUtils.alert("email: ");
+      System.out.println(user.getEmail());
+      TerminalUtils.alert("endereço: ");
+      System.out.println(user.getAddress());
+      TerminalUtils.alert("saldo: ");
+      System.out.println(String.format("R$ %.2f", user.getBalance()));
+
+      if (i < users.size() - 1) {
         System.out.println();
+      }
     }
   }
 
@@ -31,13 +43,17 @@ public class UserController {
 
     User user = userDAO.findByUsername(username);
 
-    if (user == null)
+    if (user == null) {
       throw new Error("Nome de usuário ou senha inválidos!");
+    }
 
     BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), user.getPassword());
 
-    if (!result.verified)
+    if (!result.verified) {
       throw new Error("Nome de usuário ou senha inválidos!");
+    }
+
+    TerminalUtils.successln("Logado com sucesso!");
 
     return user;
   }
@@ -66,12 +82,15 @@ public class UserController {
       confirmPassword = ScannerUtils.nextLine("Confirme a senha: ");
 
       if (!password.equals(confirmPassword)) {
-        System.out.println("Senhas diferentes. Por favor, tente novamente.");
+        TerminalUtils.warningln("Senhas diferentes. Por favor, tente novamente.");
       }
     } while (!password.equals(confirmPassword));
 
     User user = new User(userType, name, username, email, address, password);
     userDAO.create(user);
+
+    TerminalUtils.successln("Usuário criado com sucesso!");
+
     return user;
   }
 
@@ -91,8 +110,8 @@ public class UserController {
     }
 
     User userToRemove = users.get(indexToRemove);
-    String response = ScannerUtils
-        .nextLine(String.format("Tem certeza que deseja remover %s? (s/n) ", userToRemove.getUsername()));
+    TerminalUtils.info(String.format("Tem certeza que deseja remover %s? (s/n) ", userToRemove.getUsername()));
+    String response = ScannerUtils.nextLine();
     Set<String> acceptedResponses = new HashSet<>(Arrays.asList("s", "sim", "y", "yes"));
 
     if (acceptedResponses.contains(response.toLowerCase())) {
