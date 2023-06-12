@@ -1,15 +1,22 @@
 package com.ecommerce.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Product {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "user_id")
+  private User owner;
 
   private String name;
   private double price;
@@ -28,6 +35,10 @@ public class Product {
 
   public Long getId() {
     return id;
+  }
+
+  public User getOwner() {
+    return owner;
   }
 
   public String getName() {

@@ -21,8 +21,8 @@ public class Cart {
   private Long id;
 
   @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-  @JoinColumn(name = "client_id")
-  private User client;
+  @JoinColumn(name = "user_id")
+  private User owner;
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinTable(name = "cart_product", joinColumns = @JoinColumn(name = "cart_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
@@ -31,18 +31,18 @@ public class Cart {
   public Cart() {
   }
 
-  public Cart(User client, Product product) {
-    this.client = client;
+  public Cart(User owner, Product product) {
+    this.owner = owner;
     products.add(product);
   }
 
-  public Cart(User client, List<Product> products) {
-    this.client = client;
+  public Cart(User owner, List<Product> products) {
+    this.owner = owner;
     products.addAll(products);
   }
 
-  public User getClient() {
-    return client;
+  public User getOwner() {
+    return owner;
   }
 
   public List<Product> getProducts() {

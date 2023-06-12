@@ -22,8 +22,8 @@ public class PurchaseOrder {
   private Long id;
 
   @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "client_id")
-  private User client;
+  @JoinColumn(name = "user_id")
+  private User owner;
 
   @ManyToMany(cascade = CascadeType.ALL)
   @JoinTable(name = "order_product", joinColumns = @JoinColumn(name = "order_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
@@ -38,8 +38,8 @@ public class PurchaseOrder {
   public PurchaseOrder() {
   }
 
-  public PurchaseOrder(User client, List<Product> products, double totalAmount) {
-    this.client = client;
+  public PurchaseOrder(User owner, List<Product> products, double totalAmount) {
+    this.owner = owner;
     this.products = products;
     this.totalAmount = totalAmount;
     this.orderDate = LocalDateTime.now();
@@ -49,8 +49,8 @@ public class PurchaseOrder {
     return id;
   }
 
-  public User getClient() {
-    return client;
+  public User getOwner() {
+    return owner;
   }
 
   public List<Product> getProducts() {

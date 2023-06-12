@@ -1,5 +1,6 @@
 package com.ecommerce.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -21,8 +22,11 @@ public class User {
   @Column(name = "user_type")
   private String userType;
 
-  @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<PurchaseOrder> orders;
+  @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Product> products = new ArrayList<>();
+
+  @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<PurchaseOrder> orders = new ArrayList<>();
 
   private String name;
   private String username;
@@ -68,6 +72,14 @@ public class User {
 
   public void addOrder(PurchaseOrder order) {
     orders.add(order);
+  }
+
+  public List<Product> getProducts() {
+    return products;
+  }
+
+  public void addProduct(Product product) {
+    products.add(product);
   }
 
   public boolean isAdmin() {
