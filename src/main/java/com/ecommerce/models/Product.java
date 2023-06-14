@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.ecommerce.utils.TerminalUtils;
+
 @Entity
 public class Product {
   @Id
@@ -56,5 +58,16 @@ public class Product {
 
   public int getQuantity() {
     return quantity;
+  }
+
+  public void print() {
+    TerminalUtils.alert("Nome: ");
+    System.out.println(name);
+    TerminalUtils.alert("Descrição: ");
+    System.out.println(description);
+    TerminalUtils.alert("Preço: ");
+    System.out.println(String.format("R$ %.2f", price));
+    TerminalUtils.alert("Quantidade em estoque: ");
+    System.out.println(quantity);
   }
 }

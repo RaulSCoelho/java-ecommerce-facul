@@ -1,64 +1,68 @@
 package com.ecommerce.controllers;
 
 import java.util.List;
-import java.util.Scanner;
 
+import com.ecommerce.dao.CartDAO;
 import com.ecommerce.dao.ProductDAO;
+import com.ecommerce.models.Cart;
 import com.ecommerce.models.Product;
+import com.ecommerce.utils.ScannerUtils;
+import com.ecommerce.utils.TerminalUtils;
 
 public class ShopController {
   private static ProductDAO productDAO = new ProductDAO();
-  private List<Product> products = productDAO.findAll();
-  private int currentIndex = 0;
-  private Scanner scanner = new Scanner(System.in);
+  private static CartDAO cartDAO = new CartDAO();
 
   public void listProducts() {
+    List<Product> products = productDAO.findAll();
+    int currentIndex = 0;
     boolean exit = false;
-    clearConsole();
+
+    if (products.size() == 0) {
+      TerminalUtils.warningln("Não há produtos à venda!");
+      return;
+    }
+
+    TerminalUtils.clearConsole();
 
     while (!exit) {
-      displayProduct(products.get(currentIndex));
-      System.out.println("\nPress 'n' for next product, 'p' for previous product, or 'q' to quit:");
+      Product product = products.get(currentIndex);
+      product.print();
+      TerminalUtils.infoln(String.format("Produto %d de %d", currentIndex + 1, products.size()));
 
-      String input = scanner.nextLine().trim().toLowerCase();
-      switch (input) {
-        case "n":
-          nextProduct();
-          break;
+      String input = ScannerUtils
+          .nextLine(
+              "\nPressione 'p' para próximo produto, 'a' para produto anterior, 'c' para adicionar ao carrinho ou 's' para sair: ");
+
+      switch (input.trim().toLowerCase()) {
         case "p":
-          previousProduct();
+          if (currentIndex < products.size() - 1) {
+            currentIndex++;
+          }
           break;
-        case "q":
-          exit = true;
+        case "a":
+          if (currentIndex > 0) {
+            currentIndex--;
+          }
+          break;
+        case "c":
+          addToCart(product);
           break;
         default:
-          System.out.println("Invalid input. Please try again.");
+          exit = true;
       }
-      clearConsole();
+      TerminalUtils.clearConsole();
     }
   }
 
-  private void displayProduct(Product product) {
-    System.out.println("Product ID: " + product.getId());
-    System.out.println("Product Name: " + product.getName());
-    System.out.println("Product Price: " + product.getPrice());
-    // Add any other product details you want to display
-  }
-
-  private void nextProduct() {
-    if (currentIndex < products.size() - 1) {
-      currentIndex++;
+  public void addToCart(Product product) {
+    Cart cart = UserController.loggedUser.getCart();
+    if (cart != null) {
+      cart.addProduct(product);
+      cartDAO.update(cart);
+    } else {
+      cart = new Cart(UserController.loggedUser, product);
+      cartDAO.create(cart);
     }
-  }
-
-  private void previousProduct() {
-    if (currentIndex > 0) {
-      currentIndex--;
-    }
-  }
-
-  private void clearConsole() {
-    System.out.print("\033[H\033[2J");
-    System.out.flush();
   }
 }

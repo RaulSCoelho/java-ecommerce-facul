@@ -48,14 +48,7 @@ public class ProductController {
       for (int i = 0; i < products.size(); i++) {
         Product product = products.get(i);
 
-        TerminalUtils.alert("Nome: ");
-        System.out.println(product.getName());
-        TerminalUtils.alert("Descrição: ");
-        System.out.println(product.getDescription());
-        TerminalUtils.alert("Preço: ");
-        System.out.println(String.format("R$ %.2f", product.getPrice()));
-        TerminalUtils.alert("Quantidade em estoque: ");
-        System.out.println(product.getQuantity());
+        product.print();
 
         if (i < products.size() - 1) {
           System.out.println();
@@ -71,7 +64,9 @@ public class ProductController {
       String description = ScannerUtils.nextLineln("Descrição do produto: ");
       double price = ScannerUtils.nextDouble("Preço do produto: (Ex.: 0,00) ");
       int quantity = ScannerUtils.nextInt("Unidades: ");
+
       productDAO.create(new Product(user, name, description, price, quantity));
+      TerminalUtils.successln("Produto criado com sucesso!");
     }
   }
 

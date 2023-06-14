@@ -1,13 +1,17 @@
 package com.ecommerce.models;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+
+import com.ecommerce.utils.TerminalUtils;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
@@ -20,7 +24,7 @@ public class User implements Serializable {
   @Column(name = "user_type")
   private String userType;
 
-  @OneToOne(mappedBy = "owner")
+  @OneToOne(mappedBy = "owner", fetch = FetchType.EAGER)
   private Cart cart;
 
   private String name;
@@ -29,6 +33,8 @@ public class User implements Serializable {
   private String address;
   private String password;
   private Double balance = 0.0;
+  private List<Product> products;
+  private List<PurchaseOrder> orders;
 
   public User() {
   }
@@ -63,6 +69,10 @@ public class User implements Serializable {
 
   public Cart getCart() {
     return cart;
+  }
+
+  public void setCart(Cart cart) {
+    this.cart = cart;
   }
 
   public boolean isAdmin() {
@@ -123,5 +133,33 @@ public class User implements Serializable {
     } else {
       throw new Error("Saldo insuficiente.");
     }
+  }
+
+  public List<Product> getProducts() {
+    return products;
+  }
+
+  public void setProducts(List<Product> products) {
+    this.products = products;
+  }
+
+  public List<PurchaseOrder> getOrders() {
+    return orders;
+  }
+
+  public void setOrders(List<PurchaseOrder> orders) {
+    this.orders = orders;
+  }
+
+  public void print() {
+    TerminalUtils.alertln(String.format("%s - %s", name, userType));
+    TerminalUtils.alert("username: ");
+    System.out.println(username);
+    TerminalUtils.alert("email: ");
+    System.out.println(email);
+    TerminalUtils.alert("endereço: ");
+    System.out.println(address);
+    TerminalUtils.alert("saldo: ");
+    System.out.println(String.format("R$ %.2f", balance));
   }
 }

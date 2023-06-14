@@ -56,15 +56,7 @@ public class UserController {
     for (int i = 0; i < users.size(); i++) {
       User user = users.get(i);
 
-      TerminalUtils.alertln(String.format("%s - %s", user.getName(), user.getUserType()));
-      TerminalUtils.alert("username: ");
-      System.out.println(user.getUsername());
-      TerminalUtils.alert("email: ");
-      System.out.println(user.getEmail());
-      TerminalUtils.alert("endereço: ");
-      System.out.println(user.getAddress());
-      TerminalUtils.alert("saldo: ");
-      System.out.println(String.format("R$ %.2f", user.getBalance()));
+      user.print();
 
       if (i < users.size() - 1) {
         System.out.println();
@@ -104,6 +96,7 @@ public class UserController {
     userDAO.create(user);
 
     loggedUser = user;
+    FileUtils.storeObject(user, "user.obj");
     TerminalUtils.successln("Usuário criado com sucesso!");
   }
 
@@ -129,6 +122,9 @@ public class UserController {
 
     if (acceptedResponses.contains(response.toLowerCase())) {
       userDAO.delete(userToRemove);
+      if (userToRemove.getId() == loggedUser.getId()) {
+        logout();
+      }
     }
 
     TerminalUtils.successln("Usuário removido com sucesso!");
