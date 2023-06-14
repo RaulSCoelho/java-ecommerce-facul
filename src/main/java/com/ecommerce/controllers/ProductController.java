@@ -41,8 +41,9 @@ public class ProductController {
     if (user != null) {
       List<Product> products = user.getProducts();
 
-      if (products.size() == 0) {
+      if (products == null || products.size() == 0) {
         TerminalUtils.warningln("Sem produtos para mostrar!");
+        return;
       }
 
       for (int i = 0; i < products.size(); i++) {
@@ -76,7 +77,7 @@ public class ProductController {
     if (user != null) {
       List<Product> products = user.getProducts();
 
-      if (products.size() == 0) {
+      if (products == null || products.size() == 0) {
         TerminalUtils.warningln("Sem produtos para remover!");
         return;
       }
