@@ -81,7 +81,7 @@ public class ProductController {
       List<Product> products = productDAO.getProductsByUserId(user.getId());
 
       if (products.size() == 0) {
-        TerminalUtils.warningln("Sem produtos para mostrar!");
+        TerminalUtils.warningln("Sem produtos para remover!");
         return;
       }
 
