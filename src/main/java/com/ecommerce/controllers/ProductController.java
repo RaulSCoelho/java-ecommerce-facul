@@ -80,6 +80,11 @@ public class ProductController {
     if (user != null) {
       List<Product> products = productDAO.getProductsByUserId(user.getId());
 
+      if (products.size() == 0) {
+        TerminalUtils.warningln("Sem produtos para mostrar!");
+        return;
+      }
+
       TerminalUtils.infoln("Qual produto deseja remover?");
       for (Product p : products) {
         int index = products.indexOf(p);
