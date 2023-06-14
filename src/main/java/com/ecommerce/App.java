@@ -70,6 +70,9 @@ public class App {
         case 2:
           productController.menu();
           break;
+        case 3:
+          // PERFIL
+          break;
         case 4:
           UserController.logout();
           break;
