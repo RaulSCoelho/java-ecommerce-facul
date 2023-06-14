@@ -40,6 +40,11 @@ public class ProductController {
     User user = UserController.loggedUser;
     if (user != null) {
       List<Product> products = productDAO.getProductsByUserId(user.getId());
+
+      if (products.size() == 0) {
+        TerminalUtils.warningln("Sem produtos para mostrar!");
+      }
+
       for (int i = 0; i < products.size(); i++) {
         Product product = products.get(i);
 
