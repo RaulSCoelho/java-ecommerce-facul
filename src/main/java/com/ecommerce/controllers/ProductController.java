@@ -1,5 +1,10 @@
 package com.ecommerce.controllers;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import com.ecommerce.dao.ProductDAO;
 import com.ecommerce.models.Product;
 import com.ecommerce.models.User;
@@ -34,8 +39,22 @@ public class ProductController {
   public void listProducts() {
     User user = UserController.loggedUser;
     if (user != null) {
-      for (Product p : user.getProducts()) {
-        System.out.println(p.toString());
+      List<Product> products = productDAO.getProductsByUserId(user.getId());
+      for (int i = 0; i < products.size(); i++) {
+        Product product = products.get(i);
+
+        TerminalUtils.alert("Nome: ");
+        System.out.println(product.getName());
+        TerminalUtils.alert("Descrição: ");
+        System.out.println(product.getDescription());
+        TerminalUtils.alert("Preço: ");
+        System.out.println(String.format("R$ %.2f", product.getPrice()));
+        TerminalUtils.alert("Quantidade em estoque: ");
+        System.out.println(product.getQuantity());
+
+        if (i < products.size() - 1) {
+          System.out.println();
+        }
       }
     }
   }
@@ -52,6 +71,32 @@ public class ProductController {
   }
 
   public void removeProduct() {
+    User user = UserController.loggedUser;
+    if (user != null) {
+      List<Product> products = productDAO.getProductsByUserId(user.getId());
 
+      TerminalUtils.infoln("Qual produto deseja remover?");
+      for (Product p : products) {
+        int index = products.indexOf(p);
+        System.out.println(String.format("%d - %s (%d)", index + 1, p.getName(), p.getQuantity()));
+      }
+
+      int indexToRemove = ScannerUtils.nextInt() - 1;
+
+      if (indexToRemove < 0 || indexToRemove > products.size() - 1) {
+        throw new Error("Produto inválido!");
+      }
+
+      Product productToRemove = products.get(indexToRemove);
+      TerminalUtils.info(String.format("Tem certeza que deseja remover %s? (s/n) ", productToRemove.getName()));
+      String response = ScannerUtils.nextLine();
+      Set<String> acceptedResponses = new HashSet<>(Arrays.asList("s", "sim", "y", "yes"));
+
+      if (acceptedResponses.contains(response.toLowerCase())) {
+        productDAO.delete(productToRemove);
+      }
+
+      TerminalUtils.successln("Produto removido com sucesso!");
+    }
   }
 }

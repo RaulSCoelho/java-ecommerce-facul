@@ -43,6 +43,17 @@ public class GenericDAO<T> {
     return entity;
   }
 
+  public <TT> List<TT> findByColumn(Class<TT> entityClass, String columnName, Object value) {
+    EntityManager em = getEntityManager();
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<TT> criteriaQuery = cb.createQuery(entityClass);
+    Root<TT> root = criteriaQuery.from(entityClass);
+    criteriaQuery.select(root).where(cb.equal(root.get(columnName), value));
+    List<TT> entities = em.createQuery(criteriaQuery).getResultList();
+    em.close();
+    return entities;
+  }
+
   public List<T> findByColumn(String columnName, Object value) {
     EntityManager em = getEntityManager();
     CriteriaBuilder cb = em.getCriteriaBuilder();

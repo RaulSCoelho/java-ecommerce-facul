@@ -19,7 +19,7 @@ public class Cart {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @OneToOne()
+  @OneToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id")
   private User owner;
 
