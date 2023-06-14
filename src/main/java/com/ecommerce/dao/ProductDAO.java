@@ -13,5 +13,4 @@ public class ProductDAO extends GenericDAO<Product> {
   public List<Product> getProductsByUserId(Long id) {
     return findByColumn("owner", id);
   }
-
 }

@@ -39,7 +39,7 @@ public class ProductController {
   public void listProducts() {
     User user = UserController.loggedUser;
     if (user != null) {
-      List<Product> products = productDAO.getProductsByUserId(user.getId());
+      List<Product> products = user.getProducts();
 
       if (products.size() == 0) {
         TerminalUtils.warningln("Sem produtos para mostrar!");
@@ -67,13 +67,14 @@ public class ProductController {
 
       productDAO.create(new Product(user, name, description, price, quantity));
       TerminalUtils.successln("Produto criado com sucesso!");
+      UserController.reloadUser();
     }
   }
 
   public void removeProduct() {
     User user = UserController.loggedUser;
     if (user != null) {
-      List<Product> products = productDAO.getProductsByUserId(user.getId());
+      List<Product> products = user.getProducts();
 
       if (products.size() == 0) {
         TerminalUtils.warningln("Sem produtos para remover!");
@@ -102,6 +103,7 @@ public class ProductController {
       }
 
       TerminalUtils.successln("Produto removido com sucesso!");
+      UserController.reloadUser();
     }
   }
 }

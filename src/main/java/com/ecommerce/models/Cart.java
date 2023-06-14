@@ -1,5 +1,6 @@
 package com.ecommerce.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Cart {
+public class Cart implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

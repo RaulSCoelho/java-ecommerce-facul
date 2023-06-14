@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.ecommerce.utils.TerminalUtils;
@@ -27,14 +28,18 @@ public class User implements Serializable {
   @OneToOne(mappedBy = "owner", fetch = FetchType.EAGER)
   private Cart cart;
 
+  @OneToMany(mappedBy = "owner")
+  private List<Product> products;
+
+  @OneToMany(mappedBy = "owner")
+  private List<PurchaseOrder> orders;
+
   private String name;
   private String username;
   private String email;
   private String address;
   private String password;
   private Double balance = 0.0;
-  private List<Product> products;
-  private List<PurchaseOrder> orders;
 
   public User() {
   }
@@ -73,6 +78,22 @@ public class User implements Serializable {
 
   public void setCart(Cart cart) {
     this.cart = cart;
+  }
+
+  public List<Product> getProducts() {
+    return products;
+  }
+
+  public void setProducts(List<Product> products) {
+    this.products = products;
+  }
+
+  public List<PurchaseOrder> getOrders() {
+    return orders;
+  }
+
+  public void setOrders(List<PurchaseOrder> orders) {
+    this.orders = orders;
   }
 
   public boolean isAdmin() {
@@ -133,22 +154,6 @@ public class User implements Serializable {
     } else {
       throw new Error("Saldo insuficiente.");
     }
-  }
-
-  public List<Product> getProducts() {
-    return products;
-  }
-
-  public void setProducts(List<Product> products) {
-    this.products = products;
-  }
-
-  public List<PurchaseOrder> getOrders() {
-    return orders;
-  }
-
-  public void setOrders(List<PurchaseOrder> orders) {
-    this.orders = orders;
   }
 
   public void print() {

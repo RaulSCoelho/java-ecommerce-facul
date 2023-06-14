@@ -8,4 +8,7 @@ public class CartDAO extends GenericDAO<Cart> {
     super(Cart.class);
   }
 
+  public Cart getCartByUserId(Long id) {
+    return findOneByColumn("owner", id);
+  }
 }

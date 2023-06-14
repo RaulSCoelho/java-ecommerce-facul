@@ -5,7 +5,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.ecommerce.dao.CartDAO;
+import com.ecommerce.dao.ProductDAO;
+import com.ecommerce.dao.PurchaseOrderDAO;
 import com.ecommerce.dao.UserDAO;
+import com.ecommerce.models.Cart;
+import com.ecommerce.models.Product;
+import com.ecommerce.models.PurchaseOrder;
 import com.ecommerce.models.User;
 import com.ecommerce.models.UserType;
 import com.ecommerce.utils.FileUtils;
@@ -16,12 +22,22 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 
 public class UserController {
   private static UserDAO userDAO = new UserDAO();
+  private static ProductDAO productDAO = new ProductDAO();
+  private static CartDAO cartDAO = new CartDAO();
+  private static PurchaseOrderDAO orderDAO = new PurchaseOrderDAO();
   public static User loggedUser;
 
   public UserController() {
     User user = (User) FileUtils.readObject("user.obj");
     if (user != null) {
       loggedUser = user;
+    }
+  }
+
+  public static void reloadUser() {
+    if (loggedUser != null) {
+      loggedUser = getUserInfos(userDAO.findById(loggedUser.getId()));
+      FileUtils.storeObject(loggedUser, "user.obj");
     }
   }
 
@@ -41,7 +57,7 @@ public class UserController {
       throw new Error("Nome de usuário ou senha inválidos!");
     }
 
-    loggedUser = user;
+    loggedUser = getUserInfos(user);
     FileUtils.storeObject(user, "user.obj");
     TerminalUtils.successln("Logado com sucesso!");
   }
@@ -95,7 +111,7 @@ public class UserController {
     User user = new User(userType, name, username, email, address, password);
     userDAO.create(user);
 
-    loggedUser = user;
+    loggedUser = getUserInfos(user);
     FileUtils.storeObject(user, "user.obj");
     TerminalUtils.successln("Usuário criado com sucesso!");
   }
@@ -128,5 +144,15 @@ public class UserController {
     }
 
     TerminalUtils.successln("Usuário removido com sucesso!");
+  }
+
+  private static User getUserInfos(User user) {
+    Cart cart = cartDAO.getCartByUserId(user.getId());
+    List<Product> products = productDAO.getProductsByUserId(user.getId());
+    List<PurchaseOrder> orders = orderDAO.getOrdersByUserId(user.getId());
+    user.setCart(cart);
+    user.setProducts(products);
+    user.setOrders(orders);
+    return user;
   }
 }

@@ -64,5 +64,6 @@ public class ShopController {
       cart = new Cart(UserController.loggedUser, product);
       cartDAO.create(cart);
     }
+    UserController.reloadUser();
   }
 }
