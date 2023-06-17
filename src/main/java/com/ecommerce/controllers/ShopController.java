@@ -60,27 +60,11 @@ public class ShopController {
   private void addToCart(Product product) {
     Cart cart = UserController.loggedUser.getCart();
     if (cart != null) {
-      List<Product> cartProducts = cart.getProducts();
-      Product existingProduct = null;
-
-      try {
-        existingProduct = cartProducts.stream()
-            .filter(p -> p.getId().equals(product.getId()))
-            .findFirst()
-            .get();
-        cart.removeProduct(existingProduct);
-        existingProduct.setQuantity(existingProduct.getQuantity() + 1);
-        cart.addProduct(existingProduct);
-      } catch (Exception e) {
-        product.setQuantity(1);
-        cart.addProduct(product);
-      }
-
-      cartDAO.update(cart);
+      cart.addProduct(product);
     } else {
       cart = new Cart(UserController.loggedUser, product);
-      cartDAO.create(cart);
     }
+    cartDAO.create(cart);
     UserController.reloadUser();
   }
 }
