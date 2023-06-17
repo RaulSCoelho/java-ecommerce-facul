@@ -62,6 +62,10 @@ public class Product implements Serializable {
     return quantity;
   }
 
+  public void setQuantity(int quantity) {
+    this.quantity = quantity;
+  }
+
   public void print() {
     TerminalUtils.alert("Nome: ");
     System.out.println(name);
