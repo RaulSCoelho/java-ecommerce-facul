@@ -33,10 +33,14 @@ public class ProductController {
       case 3:
         removeProduct();
         break;
+      default:
+        return;
     }
+
+    menu();
   }
 
-  public void listProducts() {
+  private void listProducts() {
     User user = UserController.loggedUser;
     if (user != null) {
       List<Product> products = user.getProducts();
@@ -58,7 +62,7 @@ public class ProductController {
     }
   }
 
-  public void createProduct() {
+  private void createProduct() {
     User user = UserController.loggedUser;
     if (user != null) {
       String name = ScannerUtils.nextLine("Nome do produto: ");
@@ -72,7 +76,7 @@ public class ProductController {
     }
   }
 
-  public void removeProduct() {
+  private void removeProduct() {
     User user = UserController.loggedUser;
     if (user != null) {
       List<Product> products = user.getProducts();

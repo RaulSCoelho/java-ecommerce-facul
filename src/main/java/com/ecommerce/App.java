@@ -1,6 +1,7 @@
 package com.ecommerce;
 
 import com.ecommerce.controllers.ProductController;
+import com.ecommerce.controllers.ProfileController;
 import com.ecommerce.controllers.ShopController;
 import com.ecommerce.controllers.UserController;
 import com.ecommerce.models.User;
@@ -11,6 +12,7 @@ public class App {
   private static UserController userController = new UserController();
   private static ShopController shopController = new ShopController();
   private static ProductController productController = new ProductController();
+  private static ProfileController profileController = new ProfileController();
 
   public static void main(String[] args) {
     startProgram();
@@ -71,9 +73,12 @@ public class App {
           productController.menu();
           break;
         case 3:
-          // PERFIL
+          // CARRINHO
           break;
         case 4:
+          profileController.menu();
+          break;
+        case 5:
           UserController.logout();
           break;
       }
@@ -93,8 +98,9 @@ public class App {
     } else {
       System.out.println("1 - Ir para a loja");
       System.out.println("2 - Ir para meus produtos");
-      System.out.println("3 - Ir para meu perfil");
-      System.out.println("4 - Logout");
+      System.out.println("3 - Ir para o carrinho");
+      System.out.println("4 - Ir para meu perfil");
+      System.out.println("5 - Logout");
     }
     System.out.println("0 - Finalizar programa");
 

@@ -57,7 +57,7 @@ public class ShopController {
     }
   }
 
-  public void addToCart(Product product) {
+  private void addToCart(Product product) {
     Cart cart = UserController.loggedUser.getCart();
     if (cart != null) {
       List<Product> cartProducts = cart.getProducts();
