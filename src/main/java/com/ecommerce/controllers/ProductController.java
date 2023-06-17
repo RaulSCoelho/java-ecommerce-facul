@@ -1,9 +1,6 @@
 package com.ecommerce.controllers;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.ecommerce.dao.ProductDAO;
 import com.ecommerce.models.Product;
@@ -20,6 +17,7 @@ public class ProductController {
     System.out.println("2 - Criar um produto");
     System.out.println("3 - Remover um produto");
     System.out.println("4 - Voltar");
+    System.out.println();
 
     int action = ScannerUtils.nextInt();
 
@@ -37,6 +35,7 @@ public class ProductController {
         return;
     }
 
+    System.out.println();
     menu();
   }
 
@@ -99,11 +98,10 @@ public class ProductController {
       }
 
       Product productToRemove = products.get(indexToRemove);
-      TerminalUtils.info(String.format("Tem certeza que deseja remover %s? (s/n) ", productToRemove.getName()));
-      String response = ScannerUtils.nextLine();
-      Set<String> acceptedResponses = new HashSet<>(Arrays.asList("s", "sim", "y", "yes"));
+      boolean accepeted = TerminalUtils
+          .yesOrNo(String.format("Tem certeza que deseja remover %s? (s/n) ", productToRemove.getName()));
 
-      if (acceptedResponses.contains(response.toLowerCase())) {
+      if (accepeted) {
         productDAO.delete(productToRemove);
       }
 

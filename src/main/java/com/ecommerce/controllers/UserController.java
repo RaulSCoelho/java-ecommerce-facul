@@ -1,9 +1,6 @@
 package com.ecommerce.controllers;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.ecommerce.dao.CartDAO;
 import com.ecommerce.dao.ProductDAO;
@@ -132,11 +129,10 @@ public class UserController {
     }
 
     User userToRemove = users.get(indexToRemove);
-    TerminalUtils.info(String.format("Tem certeza que deseja remover %s? (s/n) ", userToRemove.getUsername()));
-    String response = ScannerUtils.nextLine();
-    Set<String> acceptedResponses = new HashSet<>(Arrays.asList("s", "sim", "y", "yes"));
+    boolean accepeted = TerminalUtils
+        .yesOrNo(String.format("Tem certeza que deseja remover %s? (s/n) ", userToRemove.getUsername()));
 
-    if (acceptedResponses.contains(response.toLowerCase())) {
+    if (accepeted) {
       userDAO.delete(userToRemove);
       if (userToRemove.getId() == loggedUser.getId()) {
         logout();

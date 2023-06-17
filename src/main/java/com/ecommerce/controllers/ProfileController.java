@@ -1,17 +1,14 @@
 package com.ecommerce.controllers;
 
-import com.ecommerce.dao.CartDAO;
-import com.ecommerce.dao.ProductDAO;
 import com.ecommerce.dao.UserDAO;
 import com.ecommerce.models.User;
+import com.ecommerce.utils.FileUtils;
 import com.ecommerce.utils.ScannerUtils;
 import com.ecommerce.utils.TerminalUtils;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
 public class ProfileController {
-  private static ProductDAO productDAO = new ProductDAO();
-  private static CartDAO cartDAO = new CartDAO();
   private static UserDAO userDAO = new UserDAO();
 
   public void menu() {
@@ -20,6 +17,7 @@ public class ProfileController {
     System.out.println("2 - Depositar dinheiro");
     System.out.println("3 - Remover conta");
     System.out.println("4 - Voltar");
+    System.out.println();
 
     int action = ScannerUtils.nextInt();
 
@@ -37,6 +35,7 @@ public class ProfileController {
         return;
     }
 
+    System.out.println();
     menu();
   }
 
@@ -87,7 +86,6 @@ public class ProfileController {
         user.setPassword(newPassword);
         break;
       default:
-        menu();
         return;
     }
 
@@ -109,6 +107,13 @@ public class ProfileController {
   }
 
   private void deleteAccount() {
+    User user = UserController.loggedUser;
+    boolean accepeted = TerminalUtils.yesOrNo("Tem certeza que deseja remover? (s/n) ");
 
+    if (accepeted) {
+      userDAO.delete(user);
+      FileUtils.removeFile("user.obj");
+      TerminalUtils.successln("Conta removida com sucesso!");
+    }
   }
 }

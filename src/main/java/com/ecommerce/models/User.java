@@ -1,8 +1,10 @@
 package com.ecommerce.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,14 +27,14 @@ public class User implements Serializable {
   @Column(name = "user_type")
   private String userType;
 
-  @OneToOne(mappedBy = "owner", fetch = FetchType.EAGER)
+  @OneToOne(mappedBy = "owner", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
   private Cart cart;
 
-  @OneToMany(mappedBy = "owner")
-  private List<Product> products;
+  @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
+  private List<Product> products = new ArrayList<>();
 
-  @OneToMany(mappedBy = "owner")
-  private List<PurchaseOrder> orders;
+  @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
+  private List<PurchaseOrder> orders = new ArrayList<>();
 
   private String name;
   private String username;

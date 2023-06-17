@@ -1,5 +1,9 @@
 package com.ecommerce.utils;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 public class TerminalUtils {
   private static final String RESET = "\u001B[0m";
   private static final String RED = "\u001B[31m";
@@ -13,6 +17,13 @@ public class TerminalUtils {
 
   private static void println(String message, String color) {
     System.out.println(color + message + RESET);
+  }
+
+  public static boolean yesOrNo(String message) {
+    TerminalUtils.info(message);
+    String response = ScannerUtils.nextLine();
+    Set<String> acceptedResponses = new HashSet<>(Arrays.asList("s", "sim", "y", "yes"));
+    return acceptedResponses.contains(response.toLowerCase());
   }
 
   public static void success(String message) {
