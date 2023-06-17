@@ -28,8 +28,10 @@ public class ProfileController {
         profile();
         break;
       case 2:
+        depositMoney();
         break;
       case 3:
+        deleteAccount();
         break;
       default:
         return;
@@ -92,5 +94,21 @@ public class ProfileController {
     userDAO.update(user);
     UserController.reloadUser();
     TerminalUtils.successln("Alterações salvas com sucesso!\n");
+  }
+
+  private void depositMoney() {
+    User user = UserController.loggedUser;
+
+    TerminalUtils.info("\nQuanto você quer depositar? ");
+    Double amount = ScannerUtils.nextDouble();
+
+    user.depositMoney(amount);
+    userDAO.update(user);
+    UserController.reloadUser();
+    TerminalUtils.successln("Depositado com sucesso!\n");
+  }
+
+  private void deleteAccount() {
+
   }
 }
