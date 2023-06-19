@@ -17,18 +17,20 @@ public class ProductController {
     System.out.println("2 - Criar um produto");
     System.out.println("3 - Remover um produto");
     System.out.println("4 - Voltar");
-    System.out.println();
 
     int action = ScannerUtils.nextInt();
 
     switch (action) {
       case 1:
+        System.out.println();
         listProducts();
         break;
       case 2:
+        System.out.println();
         createProduct();
         break;
       case 3:
+        System.out.println();
         removeProduct();
         break;
       default:
@@ -43,20 +45,40 @@ public class ProductController {
     User user = UserController.loggedUser;
     if (user != null) {
       List<Product> products = user.getProducts();
+      int currentIndex = 0;
+      boolean exit = false;
 
       if (products == null || products.size() == 0) {
         TerminalUtils.warningln("Sem produtos para mostrar!");
         return;
       }
 
-      for (int i = 0; i < products.size(); i++) {
-        Product product = products.get(i);
+      TerminalUtils.clearConsole();
 
+      while (!exit) {
+        Product product = products.get(currentIndex);
+        System.out.println();
         product.print();
+        TerminalUtils.infoln(String.format("Produto %d de %d", currentIndex + 1, products.size()));
 
-        if (i < products.size() - 1) {
-          System.out.println();
+        String input = ScannerUtils
+            .nextLine("\nPressione 'p' para próximo produto, 'a' para produto anterior ou 's' para sair: ");
+
+        switch (input.trim().toLowerCase()) {
+          case "p":
+            if (currentIndex < products.size() - 1) {
+              currentIndex++;
+            }
+            break;
+          case "a":
+            if (currentIndex > 0) {
+              currentIndex--;
+            }
+            break;
+          default:
+            exit = true;
         }
+        TerminalUtils.clearConsole();
       }
     }
   }
@@ -70,8 +92,8 @@ public class ProductController {
       int quantity = ScannerUtils.nextInt("Unidades: ");
 
       productDAO.create(new Product(user, name, description, price, quantity));
-      TerminalUtils.successln("Produto criado com sucesso!");
       UserController.reloadUser();
+      TerminalUtils.successln("Produto criado com sucesso!");
     }
   }
 
@@ -105,8 +127,8 @@ public class ProductController {
         productDAO.delete(productToRemove);
       }
 
-      TerminalUtils.successln("Produto removido com sucesso!");
       UserController.reloadUser();
+      TerminalUtils.successln("Produto removido com sucesso!");
     }
   }
 }

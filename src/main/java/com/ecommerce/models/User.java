@@ -167,6 +167,6 @@ public class User implements Serializable {
     TerminalUtils.alert("endereço: ");
     System.out.println(address);
     TerminalUtils.alert("saldo: ");
-    System.out.println(String.format("R$ %.2f", balance));
+    System.out.println(TerminalUtils.money(balance));
   }
 }

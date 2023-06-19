@@ -73,10 +73,10 @@ public class App {
           productController.menu();
           break;
         case 3:
-          // CARRINHO
+          profileController.menu();
           break;
         case 4:
-          profileController.menu();
+          shopController.checkout();
           break;
         case 5:
           UserController.logout();
@@ -98,8 +98,8 @@ public class App {
     } else {
       System.out.println("1 - Ir para a loja");
       System.out.println("2 - Ir para meus produtos");
-      System.out.println("3 - Ir para o carrinho");
-      System.out.println("4 - Ir para meu perfil");
+      System.out.println("3 - Ir para meu perfil");
+      System.out.println("4 - Ir para o checkout");
       System.out.println("5 - Logout");
     }
     System.out.println("0 - Finalizar programa");

@@ -60,4 +60,8 @@ public class ScannerUtils {
       return nextDouble("Você deve digitar um número inteiro: ");
     }
   }
+
+  public static String password(String message) {
+    return new String(System.console().readPassword(message));
+  }
 }

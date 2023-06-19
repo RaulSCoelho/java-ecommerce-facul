@@ -2,7 +2,6 @@ package com.ecommerce.controllers;
 
 import com.ecommerce.dao.UserDAO;
 import com.ecommerce.models.User;
-import com.ecommerce.utils.FileUtils;
 import com.ecommerce.utils.ScannerUtils;
 import com.ecommerce.utils.TerminalUtils;
 
@@ -17,7 +16,6 @@ public class ProfileController {
     System.out.println("2 - Depositar dinheiro");
     System.out.println("3 - Remover conta");
     System.out.println("4 - Voltar");
-    System.out.println();
 
     int action = ScannerUtils.nextInt();
 
@@ -26,9 +24,11 @@ public class ProfileController {
         profile();
         break;
       case 2:
+        System.out.println();
         depositMoney();
         break;
       case 3:
+        System.out.println();
         deleteAccount();
         break;
       default:
@@ -50,26 +50,30 @@ public class ProfileController {
 
     int action = ScannerUtils.nextInt();
     User user = UserController.loggedUser;
-    System.out.println();
 
     switch (action) {
       case 1:
+        System.out.println();
         String newName = ScannerUtils.nextLine("Novo nome: ");
         user.setName(newName);
         break;
       case 2:
+        System.out.println();
         String newEmail = ScannerUtils.nextLine("Novo email: ");
         user.setEmail(newEmail);
         break;
       case 3:
+        System.out.println();
         String newUsername = ScannerUtils.nextLine("Novo username: ");
         user.setUsername(newUsername);
         break;
       case 4:
+        System.out.println();
         String newAddress = ScannerUtils.nextLine("Novo endereço: ");
         user.setAddress(newAddress);
         break;
       case 5:
+        System.out.println();
         String oldPassword;
         BCrypt.Result result;
 
@@ -91,19 +95,19 @@ public class ProfileController {
 
     userDAO.update(user);
     UserController.reloadUser();
-    TerminalUtils.successln("Alterações salvas com sucesso!\n");
+    TerminalUtils.successln("Alterações salvas com sucesso!");
   }
 
   private void depositMoney() {
     User user = UserController.loggedUser;
 
-    TerminalUtils.info("\nQuanto você quer depositar? ");
+    TerminalUtils.info("Quanto você quer depositar? ");
     Double amount = ScannerUtils.nextDouble();
 
     user.depositMoney(amount);
     userDAO.update(user);
     UserController.reloadUser();
-    TerminalUtils.successln("Depositado com sucesso!\n");
+    TerminalUtils.successln("Depositado com sucesso!");
   }
 
   private void deleteAccount() {
@@ -112,7 +116,7 @@ public class ProfileController {
 
     if (accepeted) {
       userDAO.delete(user);
-      FileUtils.removeFile("user.obj");
+      UserController.logout();
       TerminalUtils.successln("Conta removida com sucesso!");
     }
   }

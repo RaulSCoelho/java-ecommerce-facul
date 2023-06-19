@@ -29,6 +29,7 @@ public class ShopController {
 
     while (!exit) {
       Product product = products.get(currentIndex);
+      System.out.println();
       product.print();
       TerminalUtils.infoln(String.format("Produto %d de %d", currentIndex + 1, products.size()));
 
@@ -60,11 +61,52 @@ public class ShopController {
   private void addToCart(Product product) {
     Cart cart = UserController.loggedUser.getCart();
     if (cart != null) {
+      List<Product> products = cart.getProducts();
+      List<Product> sameProducts = products.stream().filter(p -> p.getId().equals(product.getId())).toList();
+
+      if (sameProducts.size() >= product.getQuantity()) {
+        throw new Error("Item fora de estoque!");
+      }
+
       cart.addProduct(product);
+      cartDAO.update(cart);
     } else {
       cart = new Cart(UserController.loggedUser, product);
+      cartDAO.create(cart);
     }
-    cartDAO.create(cart);
     UserController.reloadUser();
+  }
+
+  public void checkout() {
+    Cart cart = UserController.loggedUser.getCart();
+
+    if (cart == null) {
+      throw new Error("Carrinho vazio!");
+    }
+
+    List<Product> products = cart.getProducts();
+    List<Product> outOfStock = products.stream().filter(p -> p.getQuantity() == 0).toList();
+
+    if (outOfStock.size() > 0) {
+      cart.removeProducts(outOfStock);
+      cartDAO.update(cart);
+    }
+
+    TerminalUtils.infoln("Produtos:");
+    for (Product p : products) {
+      TerminalUtils.alert(p.getName() + ": ");
+      System.out.println(TerminalUtils.money(p.getPrice()));
+    }
+
+    double totalAmount = products.stream().mapToDouble(Product::getPrice).reduce(0, Double::sum);
+    TerminalUtils.alert("Total: ");
+    System.out.println(TerminalUtils.money(totalAmount));
+
+    boolean accepeted = TerminalUtils.yesOrNo("Finalizar compra? (s/n) ");
+
+    if (accepeted) {
+
+      UserController.reloadUser();
+    }
   }
 }

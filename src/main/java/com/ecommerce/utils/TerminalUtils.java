@@ -26,6 +26,10 @@ public class TerminalUtils {
     return acceptedResponses.contains(response.toLowerCase());
   }
 
+  public static String money(double amount) {
+    return String.format("R$ %.2f", amount);
+  }
+
   public static void success(String message) {
     print(message, GREEN);
   }

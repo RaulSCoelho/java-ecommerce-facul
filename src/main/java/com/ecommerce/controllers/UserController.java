@@ -40,7 +40,7 @@ public class UserController {
 
   public static void login() {
     String username = ScannerUtils.nextLine("Username: ");
-    String password = ScannerUtils.nextLine("Password: ");
+    String password = ScannerUtils.password("Password: ");
 
     User user = userDAO.findByUsername(username);
 
@@ -97,8 +97,8 @@ public class UserController {
     String confirmPassword;
 
     do {
-      password = ScannerUtils.nextLine("Senha: ");
-      confirmPassword = ScannerUtils.nextLine("Confirme a senha: ");
+      password = ScannerUtils.password("Senha: ");
+      confirmPassword = ScannerUtils.password("Confirme a senha: ");
 
       if (!password.equals(confirmPassword)) {
         TerminalUtils.warningln("Senhas diferentes. Por favor, tente novamente.");

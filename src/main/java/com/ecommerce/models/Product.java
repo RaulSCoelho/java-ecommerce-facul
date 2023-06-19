@@ -72,7 +72,7 @@ public class Product implements Serializable {
     TerminalUtils.alert("Descrição: ");
     System.out.println(description);
     TerminalUtils.alert("Preço: ");
-    System.out.println(String.format("R$ %.2f", price));
+    System.out.println(TerminalUtils.money(price));
     TerminalUtils.alert("Quantidade em estoque: ");
     System.out.println(quantity);
   }
