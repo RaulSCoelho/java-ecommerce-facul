@@ -4,14 +4,20 @@ import java.util.List;
 
 import com.ecommerce.dao.CartDAO;
 import com.ecommerce.dao.ProductDAO;
+import com.ecommerce.dao.PurchaseOrderDAO;
+import com.ecommerce.dao.UserDAO;
 import com.ecommerce.models.Cart;
 import com.ecommerce.models.Product;
+import com.ecommerce.models.PurchaseOrder;
+import com.ecommerce.models.User;
 import com.ecommerce.utils.ScannerUtils;
 import com.ecommerce.utils.TerminalUtils;
 
 public class ShopController {
   private static ProductDAO productDAO = new ProductDAO();
   private static CartDAO cartDAO = new CartDAO();
+  private static PurchaseOrderDAO orderDAO = new PurchaseOrderDAO();
+  private static UserDAO userDAO = new UserDAO();
 
   public void listProducts() {
     List<Product> products = productDAO.findAll();
@@ -112,8 +118,23 @@ public class ShopController {
     boolean accepeted = TerminalUtils.yesOrNo("Finalizar compra? (s/n) ");
 
     if (accepeted) {
+      User user = UserController.loggedUser;
+      user.withdrawMoney(totalAmount);
+      userDAO.update(user);
 
+      for (Product product : products) {
+        int amount = products.stream().filter(p -> p.getId().equals(product.getId())).toList().size();
+        product.setQuantity(product.getQuantity() - amount);
+        productDAO.update(product);
+      }
+
+      PurchaseOrder order = new PurchaseOrder(user, products, totalAmount);
+      orderDAO.create(order);
+
+      cart.clearCart();
+      cartDAO.update(cart);
       UserController.reloadUser();
+      TerminalUtils.successln("Compra concluída com sucesso!");
     }
   }
 }

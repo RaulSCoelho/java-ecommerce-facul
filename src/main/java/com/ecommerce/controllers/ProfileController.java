@@ -40,6 +40,9 @@ public class ProfileController {
   }
 
   private void profile() {
+    System.out.println();
+    UserController.loggedUser.print();
+
     TerminalUtils.infoln("\nEscolha uma ação: ");
     System.out.println("1 - Alterar nome");
     System.out.println("2 - Alterar email");

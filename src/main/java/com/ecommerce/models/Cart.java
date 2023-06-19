@@ -60,4 +60,8 @@ public class Cart implements Serializable {
   public void removeProducts(List<Product> products) {
     this.products.removeAll(products);
   }
+
+  public void clearCart() {
+    products = new ArrayList<>();
+  }
 }
