@@ -90,6 +90,13 @@ public class ShopController {
     if (outOfStock.size() > 0) {
       cart.removeProducts(outOfStock);
       cartDAO.update(cart);
+      UserController.reloadUser();
+      cart = UserController.loggedUser.getCart();
+      products = cart.getProducts();
+    }
+
+    if (products.size() == 0) {
+      throw new Error("Carrinho vazio!");
     }
 
     TerminalUtils.infoln("Produtos:");

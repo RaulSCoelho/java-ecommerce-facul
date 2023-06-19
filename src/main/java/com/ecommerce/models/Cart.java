@@ -58,6 +58,6 @@ public class Cart implements Serializable {
   }
 
   public void removeProducts(List<Product> products) {
-    products.removeAll(products);
+    this.products.removeAll(products);
   }
 }

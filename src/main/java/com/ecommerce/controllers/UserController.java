@@ -28,6 +28,7 @@ public class UserController {
     User user = (User) FileUtils.readObject("user.obj");
     if (user != null) {
       loggedUser = user;
+      reloadUser();
     }
   }
 
