@@ -83,6 +83,52 @@ public class ShopController {
     UserController.reloadUser();
   }
 
+  public void removeFromCart() {
+    Cart cart = UserController.loggedUser.getCart();
+
+    if (cart == null) {
+      throw new Error("Carrinho vazio!");
+    }
+
+    List<Product> products = cart.getProducts();
+    List<Product> outOfStock = products.stream().filter(p -> p.getQuantity() == 0).toList();
+
+    if (outOfStock.size() > 0) {
+      cart.removeProducts(outOfStock);
+      cartDAO.update(cart);
+      UserController.reloadUser();
+      cart = UserController.loggedUser.getCart();
+      products = cart.getProducts();
+    }
+
+    if (products.size() == 0) {
+      throw new Error("Carrinho vazio!");
+    }
+
+    TerminalUtils.infoln("Qual produto deseja remover?");
+    for (Product p : products) {
+      int index = products.indexOf(p);
+      System.out.println(String.format("%d - %s (R$ %.2f)", index + 1, p.getName(), p.getPrice()));
+    }
+
+    int indexToRemove = ScannerUtils.nextInt() - 1;
+
+    if (indexToRemove < 0 || indexToRemove > products.size() - 1) {
+      throw new Error("Produto inválido!");
+    }
+
+    Product productToRemove = products.get(indexToRemove);
+    boolean accepeted = TerminalUtils
+        .yesOrNo(String.format("Tem certeza que deseja remover %s do carrinho? (s/n) ", productToRemove.getName()));
+
+    if (accepeted) {
+      cart.removeProduct(productToRemove);
+      cartDAO.update(cart);
+      UserController.reloadUser();
+      TerminalUtils.successln("Produto removido com sucesso!");
+    }
+  }
+
   public void checkout() {
     Cart cart = UserController.loggedUser.getCart();
 

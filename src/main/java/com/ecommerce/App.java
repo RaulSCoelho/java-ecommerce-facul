@@ -79,6 +79,9 @@ public class App {
           shopController.checkout();
           break;
         case 5:
+          shopController.removeFromCart();
+          break;
+        case 6:
           UserController.logout();
           break;
       }
@@ -100,7 +103,8 @@ public class App {
       System.out.println("2 - Ir para meus produtos");
       System.out.println("3 - Ir para meu perfil");
       System.out.println("4 - Ir para o checkout");
-      System.out.println("5 - Logout");
+      System.out.println("5 - Remover item do carrinho");
+      System.out.println("6 - Logout");
     }
     System.out.println("0 - Finalizar programa");
 
