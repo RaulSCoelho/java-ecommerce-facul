@@ -10,17 +10,11 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class GenericDAO<T> {
-  private static final String PERSISTENCE_UNIT_NAME = "my-persistence-unit";
-  private static EntityManagerFactory emf;
+  private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("my-persistence-unit");
   private final Class<T> entityClass;
 
   public GenericDAO(Class<T> entityClass) {
     this.entityClass = entityClass;
-    emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
-  }
-
-  static {
-    emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
   }
 
   protected EntityManager getEntityManager() {
