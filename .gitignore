@@ -21,3 +21,5 @@ target/
 # Maven wrapper scripts
 mvnw
 mvnw.cmd
+
+*.obj
