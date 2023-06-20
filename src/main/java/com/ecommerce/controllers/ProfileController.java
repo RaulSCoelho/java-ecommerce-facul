@@ -30,7 +30,7 @@ public class ProfileController {
       case 3:
         System.out.println();
         deleteAccount();
-        break;
+        return;
       default:
         return;
     }

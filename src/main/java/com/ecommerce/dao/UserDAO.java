@@ -1,8 +1,9 @@
 package com.ecommerce.dao;
 
+import com.ecommerce.dao.interfaces.IUserDAO;
 import com.ecommerce.models.User;
 
-public class UserDAO extends GenericDAO<User> {
+public class UserDAO extends GenericDAO<User> implements IUserDAO {
 
   public UserDAO() {
     super(User.class);

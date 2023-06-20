@@ -1,8 +1,9 @@
 package com.ecommerce.dao;
 
+import com.ecommerce.dao.interfaces.ICartDAO;
 import com.ecommerce.models.Cart;
 
-public class CartDAO extends GenericDAO<Cart> {
+public class CartDAO extends GenericDAO<Cart> implements ICartDAO {
 
   public CartDAO() {
     super(Cart.class);

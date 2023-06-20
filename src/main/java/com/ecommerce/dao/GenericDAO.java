@@ -7,9 +7,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import com.ecommerce.dao.interfaces.IGenericDAO;
+
 import java.util.List;
 
-public class GenericDAO<T> {
+public class GenericDAO<T> implements IGenericDAO<T> {
   private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("my-persistence-unit");
   private final Class<T> entityClass;
 
